@@ -98,7 +98,7 @@ The counts are small. One miss moves a percentage a lot, so read the counts, not
   `evidence/dark-matter-engine.mp4` and `evidence/offline_results.png`.
 - Scheduled run: a Windows Task Scheduler task ran by itself (last result 0), wrote the report and a log,
   and a second run on unchanged files reused the saved result. See `evidence/`. The overnight run needs the
-  laptop awake and Ollama running. The schedule command also allows starting on battery.
+  laptop awake and Ollama running. Task Scheduler blocks starting on battery by default; I changed that setting by hand for this test.
 
 ## Layout
 
