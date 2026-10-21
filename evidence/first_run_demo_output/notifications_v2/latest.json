@@ -1,0 +1,78 @@
+{
+  "root": "C:\\Users\\Admin\\PycharmProjects\\pythonProject\\dark-matter-engine\\corpus\\notifications\\v2",
+  "mode": "fixed",
+  "model": {
+    "tag": "gemma3:4b",
+    "digest": "68ceab7e468a31c988b44d5a4984a0e21f58c4f7158c6ce29c1804babac38df7"
+  },
+  "files": {
+    "spec.md": "bb93084b79532ac3239cce335006266775dbf2e9e8897b1a31f7e1406535f71c"
+  },
+  "findings": [
+    {
+      "id": "N1",
+      "event": "The push provider is down for an hour",
+      "required_outcome": "notifications are not silently lost",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 13,
+          "line_end": 13,
+          "text": "When the push provider returns errors for more than 5 minutes, queued notifications are kept for up to 6 hours and sent in their original order once the provider recovers."
+        }
+      ],
+      "reason": "",
+      "open_question": "How does the system ensure notifications are not silently lost during a push provider outage?"
+    },
+    {
+      "id": "N2",
+      "event": "A user reaches the hourly notification limit",
+      "required_outcome": "further notifications are handled by a defined rule",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 7,
+          "line_end": 7,
+          "text": "Each user receives at most 5 notifications per hour. Notifications over the limit are dropped and counted in the metrics dashboard."
+        }
+      ],
+      "reason": "",
+      "open_question": "How are notifications handled when a user exceeds the hourly notification limit of 5?"
+    },
+    {
+      "id": "N3",
+      "event": "A notification is created at 23:30 in the user's local time",
+      "required_outcome": "delivery timing is defined",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 10,
+          "line_end": 10,
+          "text": "Between 22:00 and 07:00 in the user's local time, notifications are held and delivered at 07:00."
+        }
+      ],
+      "reason": "",
+      "open_question": "When will the notification be delivered, considering the quiet hours and rate limiting rules?"
+    }
+  ],
+  "stats": {
+    "model_calls": 6,
+    "invalid_json": 0,
+    "schema_failures": 0,
+    "citations_total": 3,
+    "citations_valid": 3
+  },
+  "elapsed_s": 135.11
+}

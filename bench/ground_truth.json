@@ -1,0 +1,270 @@
+{
+  "note": "Written before running any model. The scanner never reads this folder.",
+  "items": [
+    {
+      "project": "checkout",
+      "version": "v1",
+      "scenario_id": "C1",
+      "expected": "Not established",
+      "class": "planted",
+      "match_terms": [
+        "payment",
+        "response",
+        "retry"
+      ],
+      "split": "dev"
+    },
+    {
+      "project": "checkout",
+      "version": "v1",
+      "scenario_id": "C2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "dev"
+    },
+    {
+      "project": "checkout",
+      "version": "v1",
+      "scenario_id": "C3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "dev"
+    },
+    {
+      "project": "checkout",
+      "version": "v2",
+      "scenario_id": "C1",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "dev"
+    },
+    {
+      "project": "checkout",
+      "version": "v2",
+      "scenario_id": "C2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "dev"
+    },
+    {
+      "project": "checkout",
+      "version": "v2",
+      "scenario_id": "C3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "dev"
+    },
+    {
+      "project": "jobs",
+      "version": "v1",
+      "scenario_id": "J1",
+      "expected": "Not established",
+      "class": "planted",
+      "match_terms": [
+        "worker",
+        "crash",
+        "job"
+      ],
+      "split": "dev"
+    },
+    {
+      "project": "jobs",
+      "version": "v1",
+      "scenario_id": "J2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "dev"
+    },
+    {
+      "project": "jobs",
+      "version": "v1",
+      "scenario_id": "J3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "dev"
+    },
+    {
+      "project": "jobs",
+      "version": "v2",
+      "scenario_id": "J1",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "dev"
+    },
+    {
+      "project": "jobs",
+      "version": "v2",
+      "scenario_id": "J2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "dev"
+    },
+    {
+      "project": "jobs",
+      "version": "v2",
+      "scenario_id": "J3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "dev"
+    },
+    {
+      "project": "auth",
+      "version": "v1",
+      "scenario_id": "A1",
+      "expected": "Not established",
+      "class": "planted",
+      "split": "heldout",
+      "match_terms": [
+        "password",
+        "change",
+        "device"
+      ]
+    },
+    {
+      "project": "auth",
+      "version": "v2",
+      "scenario_id": "A1",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "auth",
+      "version": "v1",
+      "scenario_id": "A2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "auth",
+      "version": "v2",
+      "scenario_id": "A2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "auth",
+      "version": "v1",
+      "scenario_id": "A3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "auth",
+      "version": "v2",
+      "scenario_id": "A3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "upload",
+      "version": "v1",
+      "scenario_id": "U1",
+      "expected": "Not established",
+      "class": "planted",
+      "split": "heldout",
+      "match_terms": [
+        "connection",
+        "upload",
+        "lost"
+      ]
+    },
+    {
+      "project": "upload",
+      "version": "v2",
+      "scenario_id": "U1",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "upload",
+      "version": "v1",
+      "scenario_id": "U2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "upload",
+      "version": "v2",
+      "scenario_id": "U2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "upload",
+      "version": "v1",
+      "scenario_id": "U3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "upload",
+      "version": "v2",
+      "scenario_id": "U3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "notifications",
+      "version": "v1",
+      "scenario_id": "N1",
+      "expected": "Not established",
+      "class": "planted",
+      "split": "heldout",
+      "match_terms": [
+        "provider",
+        "down",
+        "notification"
+      ]
+    },
+    {
+      "project": "notifications",
+      "version": "v2",
+      "scenario_id": "N1",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "notifications",
+      "version": "v1",
+      "scenario_id": "N2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "notifications",
+      "version": "v2",
+      "scenario_id": "N2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "notifications",
+      "version": "v1",
+      "scenario_id": "N3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    },
+    {
+      "project": "notifications",
+      "version": "v2",
+      "scenario_id": "N3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout"
+    }
+  ]
+}

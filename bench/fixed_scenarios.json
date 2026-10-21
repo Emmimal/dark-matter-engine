@@ -1,0 +1,87 @@
+{
+  "checkout": [
+    {
+      "id": "C1",
+      "event": "The payment gateway charges the card but the response is lost and the client retries",
+      "required_outcome": "the order is charged exactly once"
+    },
+    {
+      "id": "C2",
+      "event": "The payment gateway returns a 500 error",
+      "required_outcome": "the charge is retried and the client gets a defined result"
+    },
+    {
+      "id": "C3",
+      "event": "The card is declined",
+      "required_outcome": "the client receives a decline response and no payment is recorded"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "J1",
+      "event": "A worker process crashes while running a job",
+      "required_outcome": "the job is not lost and is processed again"
+    },
+    {
+      "id": "J2",
+      "event": "A job raises an error while running",
+      "required_outcome": "the job is retried with a defined delay and limit"
+    },
+    {
+      "id": "J3",
+      "event": "A producer sends the same job twice",
+      "required_outcome": "the job is not duplicated"
+    }
+  ],
+  "auth": [
+    {
+      "id": "A1",
+      "event": "A user changes their password while signed in on another device",
+      "required_outcome": "the other device's access is handled"
+    },
+    {
+      "id": "A2",
+      "event": "A refresh token is used again after it was already exchanged",
+      "required_outcome": "the old token is not accepted"
+    },
+    {
+      "id": "A3",
+      "event": "A user logs out",
+      "required_outcome": "the session can no longer be refreshed"
+    }
+  ],
+  "upload": [
+    {
+      "id": "U1",
+      "event": "The client loses its connection halfway through an upload and never returns",
+      "required_outcome": "storage is not consumed indefinitely"
+    },
+    {
+      "id": "U2",
+      "event": "A client tries to upload a file larger than 2 GB",
+      "required_outcome": "the upload is refused with a defined response"
+    },
+    {
+      "id": "U3",
+      "event": "The client uploads a single part successfully",
+      "required_outcome": "the client can check the part's integrity"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "N1",
+      "event": "The push provider is down for an hour",
+      "required_outcome": "notifications are not silently lost"
+    },
+    {
+      "id": "N2",
+      "event": "A user reaches the hourly notification limit",
+      "required_outcome": "further notifications are handled by a defined rule"
+    },
+    {
+      "id": "N3",
+      "event": "A notification is created at 23:30 in the user's local time",
+      "required_outcome": "delivery timing is defined"
+    }
+  ]
+}

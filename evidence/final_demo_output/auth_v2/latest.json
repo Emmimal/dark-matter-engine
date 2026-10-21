@@ -1,0 +1,79 @@
+{
+  "root": "C:\\Users\\Admin\\PycharmProjects\\pythonProject\\dark-matter-engine\\corpus\\auth\\v2",
+  "mode": "fixed",
+  "model": {
+    "tag": "gemma3:4b",
+    "digest": "68ceab7e468a31c988b44d5a4984a0e21f58c4f7158c6ce29c1804babac38df7"
+  },
+  "files": {
+    "spec.md": "b86441ad41579865dedce1676a8929d223ad463c333606b8d6f5bc13bf09e339"
+  },
+  "findings": [
+    {
+      "id": "A1",
+      "event": "A user changes their password while signed in on another device",
+      "required_outcome": "the other device's access is handled",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 13,
+          "line_end": 13,
+          "text": "Every other device must sign in again once its access token expires."
+        }
+      ],
+      "reason": "",
+      "open_question": "How does the system ensure that a user's access is handled when they change their password while logged in on another device?"
+    },
+    {
+      "id": "A2",
+      "event": "A refresh token is used again after it was already exchanged",
+      "required_outcome": "the old token is not accepted",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 7,
+          "line_end": 7,
+          "text": "Each refresh issues a new refresh token and the old one stops working."
+        }
+      ],
+      "reason": "",
+      "open_question": "Will a refresh token that has been previously exchanged still be accepted if a password change is performed?"
+    },
+    {
+      "id": "A3",
+      "event": "A user logs out",
+      "required_outcome": "the session can no longer be refreshed",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 7,
+          "line_end": 7,
+          "text": "Each refresh issues a new refresh token and the old one stops working."
+        }
+      ],
+      "reason": "",
+      "open_question": "How does the system ensure that a session can no longer be refreshed after a user logs out?"
+    }
+  ],
+  "stats": {
+    "model_calls": 6,
+    "invalid_json": 0,
+    "schema_failures": 0,
+    "citations_total": 3,
+    "citations_valid": 3
+  },
+  "elapsed_s": 123.32,
+  "cached": true
+}

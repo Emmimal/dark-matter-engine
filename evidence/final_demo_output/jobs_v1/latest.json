@@ -1,0 +1,79 @@
+{
+  "root": "C:\\Users\\Admin\\PycharmProjects\\pythonProject\\dark-matter-engine\\corpus\\jobs\\v1",
+  "mode": "fixed",
+  "model": {
+    "tag": "gemma3:4b",
+    "digest": "68ceab7e468a31c988b44d5a4984a0e21f58c4f7158c6ce29c1804babac38df7"
+  },
+  "files": {
+    "spec.md": "2d2055f6c1821553bf7c6af27557ea491f1ce9ec18a668c7b7d85ef014494a3c"
+  },
+  "findings": [
+    {
+      "id": "J1",
+      "event": "A worker process crashes while running a job",
+      "required_outcome": "the job is not lost and is processed again",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 10,
+          "line_end": 10,
+          "text": "If a job raises an error the worker reports the failure and the queue retries the job after a delay of 30 seconds, doubling on each attempt up to 5 attempts."
+        }
+      ],
+      "reason": "",
+      "open_question": "How does the system ensure that a job is processed again after a worker process crashes while running the job?"
+    },
+    {
+      "id": "J2",
+      "event": "A job raises an error while running",
+      "required_outcome": "the job is retried with a defined delay and limit",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 10,
+          "line_end": 10,
+          "text": "If a job raises an error the worker reports the failure and the queue retries the job after a delay of 30 seconds, doubling on each attempt up to 5 attempts."
+        }
+      ],
+      "reason": "",
+      "open_question": "How does the job queue handle a job that raises an error, specifically regarding the retry mechanism and its limits?"
+    },
+    {
+      "id": "J3",
+      "event": "A producer sends the same job twice",
+      "required_outcome": "the job is not duplicated",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 4,
+          "line_end": 4,
+          "text": "Enqueueing a job_id that already exists is ignored, so a producer can safely resend."
+        }
+      ],
+      "reason": "",
+      "open_question": "Does the system prevent the same job from being processed multiple times, or does it simply ignore subsequent attempts to enqueue the same job ID?"
+    }
+  ],
+  "stats": {
+    "model_calls": 6,
+    "invalid_json": 0,
+    "schema_failures": 0,
+    "citations_total": 3,
+    "citations_valid": 3
+  },
+  "elapsed_s": 137.55,
+  "cached": true
+}

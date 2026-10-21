@@ -1,0 +1,78 @@
+{
+  "root": "C:\\Users\\Admin\\PycharmProjects\\pythonProject\\dark-matter-engine\\corpus\\notifications\\v1",
+  "mode": "fixed",
+  "model": {
+    "tag": "gemma3:4b",
+    "digest": "68ceab7e468a31c988b44d5a4984a0e21f58c4f7158c6ce29c1804babac38df7"
+  },
+  "files": {
+    "spec.md": "b898b6d007b88dac5714807ec66942880e8b692ec6097cbd50729ef14672bec3"
+  },
+  "findings": [
+    {
+      "id": "N1",
+      "event": "The push provider is down for an hour",
+      "required_outcome": "notifications are not silently lost",
+      "source": "",
+      "status": "Partially answered",
+      "first_pass_status": "Partially answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 4,
+          "line_end": 4,
+          "text": "The service sends push notifications through the push provider API."
+        }
+      ],
+      "reason": "",
+      "open_question": "How does the notification service ensure notifications are not silently lost during the hour the push provider is down?"
+    },
+    {
+      "id": "N2",
+      "event": "A user reaches the hourly notification limit",
+      "required_outcome": "further notifications are handled by a defined rule",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 7,
+          "line_end": 7,
+          "text": "Each user receives at most 5 notifications per hour. Notifications over the limit are dropped and counted in the metrics dashboard."
+        }
+      ],
+      "reason": "",
+      "open_question": "How does the notification service handle notifications when a user exceeds the hourly notification limit?"
+    },
+    {
+      "id": "N3",
+      "event": "A notification is created at 23:30 in the user's local time",
+      "required_outcome": "delivery timing is defined",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 10,
+          "line_end": 10,
+          "text": "Between 22:00 and 07:00 in the user's local time, notifications are held and delivered at 07:00."
+        }
+      ],
+      "reason": "",
+      "open_question": "When will the notification be delivered if it is created at 23:30 in the user's local time?"
+    }
+  ],
+  "stats": {
+    "model_calls": 5,
+    "invalid_json": 0,
+    "schema_failures": 0,
+    "citations_total": 3,
+    "citations_valid": 3
+  },
+  "elapsed_s": 118.13
+}

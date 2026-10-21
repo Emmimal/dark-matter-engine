@@ -1,0 +1,9 @@
+[
+  ["timeout", "timed out", "lost", "dropped", "no response", "disconnect", "unreachable", "unavailable"],
+  ["retry", "resubmit", "resend", "replay", "again", "duplicate", "twice"],
+  ["crash", "die", "killed", "stops", "restart", "lease", "expire", "heartbeat", "reappear"],
+  ["idempotent", "idempotency", "key", "deduplicate", "once", "twice", "duplicate"],
+  ["fail", "failure", "error", "exception", "reject", "declined"],
+  ["database", "db", "storage", "write", "persist", "store", "lock"],
+  ["gateway", "provider", "processor", "payment", "charge"]
+]

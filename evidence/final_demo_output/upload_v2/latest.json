@@ -1,0 +1,79 @@
+{
+  "root": "C:\\Users\\Admin\\PycharmProjects\\pythonProject\\dark-matter-engine\\corpus\\upload\\v2",
+  "mode": "fixed",
+  "model": {
+    "tag": "gemma3:4b",
+    "digest": "68ceab7e468a31c988b44d5a4984a0e21f58c4f7158c6ce29c1804babac38df7"
+  },
+  "files": {
+    "spec.md": "5ea1713883dba1a8c081d1005ef284c193d0aee3e0db8417b7865e2a6daf7f38"
+  },
+  "findings": [
+    {
+      "id": "U1",
+      "event": "The client loses its connection halfway through an upload and never returns",
+      "required_outcome": "storage is not consumed indefinitely",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 16,
+          "line_end": 16,
+          "text": "Parts of an upload that has seen no activity for 24 hours are deleted by a nightly cleanup job, and the upload id then returns 404."
+        }
+      ],
+      "reason": "",
+      "open_question": "How does the system prevent storage from being consumed indefinitely when an upload is abandoned?"
+    },
+    {
+      "id": "U2",
+      "event": "A client tries to upload a file larger than 2 GB",
+      "required_outcome": "the upload is refused with a defined response",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 13,
+          "line_end": 13,
+          "text": "Files larger than 2 GB are rejected at the start of the upload with a 413 response."
+        }
+      ],
+      "reason": "",
+      "open_question": "What specific response code is returned when a client attempts to upload a file exceeding 2 GB?"
+    },
+    {
+      "id": "U3",
+      "event": "The client uploads a single part successfully",
+      "required_outcome": "the client can check the part's integrity",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 10,
+          "line_end": 10,
+          "text": "The client calls POST /uploads/{id}/complete. The service assembles the parts in order and verifies the total size matches the size declared at the start."
+        }
+      ],
+      "reason": "",
+      "open_question": "How does the service ensure the integrity of the uploaded part after the client successfully uploads it?"
+    }
+  ],
+  "stats": {
+    "model_calls": 6,
+    "invalid_json": 0,
+    "schema_failures": 0,
+    "citations_total": 3,
+    "citations_valid": 3
+  },
+  "elapsed_s": 118.54,
+  "cached": true
+}

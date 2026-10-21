@@ -1,0 +1,78 @@
+{
+  "root": "C:\\Users\\Admin\\PycharmProjects\\pythonProject\\dark-matter-engine\\corpus\\checkout\\v2",
+  "mode": "fixed",
+  "model": {
+    "tag": "gemma3:4b",
+    "digest": "68ceab7e468a31c988b44d5a4984a0e21f58c4f7158c6ce29c1804babac38df7"
+  },
+  "files": {
+    "spec.md": "2d0daa00f982d55f90fbfe74a5d648be849fc213a6cd89b2ac31d39c6026d244"
+  },
+  "findings": [
+    {
+      "id": "C1",
+      "event": "The payment gateway charges the card but the response is lost and the client retries",
+      "required_outcome": "the order is charged exactly once",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 16,
+          "line_end": 16,
+          "text": "Every POST /payments request must include an Idempotency-Key header. The service stores the key with the gateway result. If the client retries after a lost response, the service returns the stored result and never charges the order a second time."
+        }
+      ],
+      "reason": "",
+      "open_question": "How does the system ensure that the order is charged exactly once when the payment gateway response is lost and the client retries?"
+    },
+    {
+      "id": "C2",
+      "event": "The payment gateway returns a 500 error",
+      "required_outcome": "the charge is retried and the client gets a defined result",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 10,
+          "line_end": 10,
+          "text": "If the gateway responds with a 500 error, the service retries the charge up to 3 times with exponential backoff."
+        }
+      ],
+      "reason": "",
+      "open_question": "What specific result does the service return to the client after the third retry of a payment that initially returns a 500 error?"
+    },
+    {
+      "id": "C3",
+      "event": "The card is declined",
+      "required_outcome": "the client receives a decline response and no payment is recorded",
+      "source": "",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "pass_used": 1,
+      "citations": [
+        {
+          "file": "spec.md",
+          "line_start": 7,
+          "line_end": 7,
+          "text": "If the gateway declines the card, the service returns 402 with the decline reason. No payment record is stored and the order stays in the pending state."
+        }
+      ],
+      "reason": "",
+      "open_question": "Does the system guarantee that the client receives a decline response when a card is declined, and that no payment record is created?"
+    }
+  ],
+  "stats": {
+    "model_calls": 6,
+    "invalid_json": 0,
+    "schema_failures": 0,
+    "citations_total": 3,
+    "citations_valid": 3
+  },
+  "elapsed_s": 165.77
+}
