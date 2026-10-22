@@ -1,0 +1,184 @@
+{
+  "detail": [
+    {
+      "project": "checkout",
+      "version": "v1",
+      "id": "C1",
+      "expected": "Not established",
+      "status": "Partially answered",
+      "first_pass_status": "Partially answered",
+      "reason": "",
+      "cited": "The client sends POST /payments with an order_id and amount. The service calls the payment gateway and returns 201 with the payment record o"
+    },
+    {
+      "project": "checkout",
+      "version": "v1",
+      "id": "C2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "If the gateway responds with a 500 error, the service retries the charge up to 3 times with exponential backoff."
+    },
+    {
+      "project": "checkout",
+      "version": "v1",
+      "id": "C3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "If the gateway declines the card, the service returns 402 with the decline reason. No payment record is stored and the order stays in the pe"
+    },
+    {
+      "project": "checkout",
+      "version": "v2",
+      "id": "C1",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "Every POST /payments request must include an Idempotency-Key header. The service stores the key with the gateway result. If the client retri"
+    },
+    {
+      "project": "checkout",
+      "version": "v2",
+      "id": "C2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "If the gateway responds with a 500 error, the service retries the charge up to 3 times with exponential backoff."
+    },
+    {
+      "project": "checkout",
+      "version": "v2",
+      "id": "C3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "If the gateway declines the card, the service returns 402 with the decline reason. No payment record is stored and the order stays in the pe"
+    },
+    {
+      "project": "jobs",
+      "version": "v1",
+      "id": "J1",
+      "expected": "Not established",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: If a job raises an error the worker reports the failure and the queue retries the job afte",
+      "cited": ""
+    },
+    {
+      "project": "jobs",
+      "version": "v1",
+      "id": "J2",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: If a job raises an error the worker reports the failure and the queue retries the job afte",
+      "cited": ""
+    },
+    {
+      "project": "jobs",
+      "version": "v1",
+      "id": "J3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "Enqueueing a job_id that already exists is ignored, so a producer can safely resend."
+    },
+    {
+      "project": "jobs",
+      "version": "v2",
+      "id": "J1",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: A worker claims one job at a time and sends a heartbeat every 10 seconds while it runs the",
+      "cited": ""
+    },
+    {
+      "project": "jobs",
+      "version": "v2",
+      "id": "J2",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: If a job raises an error the worker reports the failure and the queue retries the job afte",
+      "cited": ""
+    },
+    {
+      "project": "jobs",
+      "version": "v2",
+      "id": "J3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "Enqueueing a job_id that already exists is ignored, so a producer can safely resend."
+    }
+  ],
+  "mode": "fixed",
+  "verify_mode": "describe",
+  "n_scenarios": 12,
+  "runs": 1,
+  "final": {
+    "precision": "1/4 (25%)",
+    "recall": "1/2 (50%)",
+    "false_positive_rate": "3/10 (30%)",
+    "unverified": "0/12",
+    "tp": 1,
+    "fp": 3,
+    "fn": 1
+  },
+  "final_unresolved": {
+    "precision": "2/5 (40%)",
+    "recall": "2/2 (100%)",
+    "false_positive_rate": "3/10 (30%)",
+    "unverified": "0/12",
+    "tp": 2,
+    "fp": 3,
+    "fn": 0
+  },
+  "by_split": {
+    "dev": {
+      "n": 12,
+      "strict": {
+        "precision": "1/4 (25%)",
+        "recall": "1/2 (50%)",
+        "false_positive_rate": "3/10 (30%)",
+        "unverified": "0/12",
+        "tp": 1,
+        "fp": 3,
+        "fn": 1
+      },
+      "unresolved": {
+        "precision": "2/5 (40%)",
+        "recall": "2/2 (100%)",
+        "false_positive_rate": "3/10 (30%)",
+        "unverified": "0/12",
+        "tp": 2,
+        "fp": 3,
+        "fn": 0
+      }
+    }
+  },
+  "first_pass_only": {
+    "precision": "1/4 (25%)",
+    "recall": "1/2 (50%)",
+    "false_positive_rate": "3/10 (30%)",
+    "unverified": "0/12",
+    "tp": 1,
+    "fp": 3,
+    "fn": 1
+  },
+  "second_pass_rescued_valid_answers": 0,
+  "second_pass_hid_real_gaps": 0,
+  "citation_validity": "18/18 (100%)",
+  "json_validity": "46/46 (100%)",
+  "repeat_consistency": "12/12 (100%)",
+  "runtime_s_per_run": 927.44
+}

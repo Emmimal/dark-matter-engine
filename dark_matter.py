@@ -189,6 +189,40 @@ def cmd_baseline(a):
     return 0
 
 
+def cmd_compare(a):
+    """Frozen check (relevance) vs the two-step check (describe), on the same scenarios."""
+    from bench.run_bench import run_fixed
+    guard.install()
+    out = Path(a.out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    model = make_model(a)
+    syn = load_synonyms(HERE / "data/synonyms.json")
+    plan = [("relevance", "heldout2", ["cart", "webhooks", "cache", "export"]),
+            ("describe", "heldout2", ["cart", "webhooks", "cache", "export"]),
+            ("describe", "dev", ["checkout", "jobs"]),
+            ("describe", "heldout", ["auth", "upload", "notifications"])]
+    if a.only:
+        plan = [p for p in plan if f"{p[0]}:{p[1]}" in a.only.split(",")]
+    try:
+        for mode, name, projs in plan:
+            print(f"[{mode} on {name}] running ...", flush=True)
+            r = run_fixed(model, syn, 1, projs, mode)
+            (out / f"{mode}_{name}.json").write_text(json.dumps(r, indent=2))
+            u, s = r["final_unresolved"], r["final"]
+            print(f"  unresolved recall {u['recall']}, false alarms {u['false_positive_rate']}, "
+                  f"strict recall {s['recall']}, JSON {r['json_validity']}, {r['runtime_s_per_run']}s")
+            for d in r["detail"]:
+                flagged = d["status"] in ("Not established", "Partially answered")
+                if flagged != (d["expected"] == "Not established"):
+                    print(f"    mismatch {d['project']} {d['version']} {d['id']}: "
+                          f"expected {d['expected']}, got {d['status']}")
+    except (ModelError, OSError) as e:
+        print(f"compare failed: {e}", file=sys.stderr)
+        return 1
+    print(f"Saved in {out}")
+    return 0
+
+
 def cmd_bench(a):
     from bench.run_bench import main
     return main(a)
@@ -227,6 +261,14 @@ def build_parser():
     d.add_argument("--quick", action="store_true", help="checkout pair only (shorter run)")
     common(d)
     d.set_defaults(fn=cmd_demo)
+
+    k = sub.add_parser("compare", help="frozen relevance check vs two-step describe check")
+    k.add_argument("--out-dir", default="compare_output")
+    k.add_argument("--only", help="e.g. relevance:heldout2,describe:dev")
+    k.add_argument("--model", default=DEFAULT_MODEL)
+    k.add_argument("--host", default=DEFAULT_HOST)
+    k.add_argument("--fake", action="store_true")
+    k.set_defaults(fn=cmd_compare)
 
     n = sub.add_parser("baseline", help="no-model baseline over the same scenarios")
     n.set_defaults(fn=cmd_baseline)

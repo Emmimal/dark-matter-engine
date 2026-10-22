@@ -1,0 +1,244 @@
+{
+  "detail": [
+    {
+      "project": "auth",
+      "version": "v1",
+      "id": "A1",
+      "expected": "Not established",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: Users sign in with email and password. On success the service issues an access token valid",
+      "cited": ""
+    },
+    {
+      "project": "auth",
+      "version": "v2",
+      "id": "A1",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: Every other device must sign in again once its access token expires.",
+      "cited": ""
+    },
+    {
+      "project": "auth",
+      "version": "v1",
+      "id": "A2",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: Each refresh issues a new refresh token and the old one stops working.",
+      "cited": ""
+    },
+    {
+      "project": "auth",
+      "version": "v2",
+      "id": "A2",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: Each refresh issues a new refresh token and the old one stops working.",
+      "cited": ""
+    },
+    {
+      "project": "auth",
+      "version": "v1",
+      "id": "A3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Not established",
+      "reason": "",
+      "cited": "Logout deletes the stored refresh token."
+    },
+    {
+      "project": "auth",
+      "version": "v2",
+      "id": "A3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Not established",
+      "reason": "",
+      "cited": "Logout deletes the stored refresh token."
+    },
+    {
+      "project": "upload",
+      "version": "v1",
+      "id": "U1",
+      "expected": "Not established",
+      "status": "Partially answered",
+      "first_pass_status": "Not established",
+      "reason": "",
+      "cited": "The client calls POST /uploads with the file name and size. The service returns an upload id and a part size of 5 MB."
+    },
+    {
+      "project": "upload",
+      "version": "v2",
+      "id": "U1",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: Parts of an upload that has seen no activity for 24 hours are deleted by a nightly cleanup",
+      "cited": ""
+    },
+    {
+      "project": "upload",
+      "version": "v1",
+      "id": "U2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "Files larger than 2 GB are rejected at the start of the upload with a 413 response."
+    },
+    {
+      "project": "upload",
+      "version": "v2",
+      "id": "U2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "Files larger than 2 GB are rejected at the start of the upload with a 413 response."
+    },
+    {
+      "project": "upload",
+      "version": "v1",
+      "id": "U3",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: The client sends each part with PUT /uploads/{id}/parts/{n}. The service stores the part a",
+      "cited": ""
+    },
+    {
+      "project": "upload",
+      "version": "v2",
+      "id": "U3",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: The client sends each part with PUT /uploads/{id}/parts/{n}. The service stores the part a",
+      "cited": ""
+    },
+    {
+      "project": "notifications",
+      "version": "v1",
+      "id": "N1",
+      "expected": "Not established",
+      "status": "Partially answered",
+      "first_pass_status": "Partially answered",
+      "reason": "",
+      "cited": "The service sends push notifications through the push provider API."
+    },
+    {
+      "project": "notifications",
+      "version": "v2",
+      "id": "N1",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "When the push provider returns errors for more than 5 minutes, queued notifications are kept for up to 6 hours and sent in their original or"
+    },
+    {
+      "project": "notifications",
+      "version": "v1",
+      "id": "N2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "Each user receives at most 5 notifications per hour. Notifications over the limit are dropped and counted in the metrics dashboard."
+    },
+    {
+      "project": "notifications",
+      "version": "v2",
+      "id": "N2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "Each user receives at most 5 notifications per hour. Notifications over the limit are dropped and counted in the metrics dashboard."
+    },
+    {
+      "project": "notifications",
+      "version": "v1",
+      "id": "N3",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: Between 22:00 and 07:00 in the user's local time, notifications are held and delivered at ",
+      "cited": ""
+    },
+    {
+      "project": "notifications",
+      "version": "v2",
+      "id": "N3",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: Between 22:00 and 07:00 in the user's local time, notifications are held and delivered at ",
+      "cited": ""
+    }
+  ],
+  "mode": "fixed",
+  "verify_mode": "describe",
+  "n_scenarios": 18,
+  "runs": 1,
+  "final": {
+    "precision": "1/9 (11%)",
+    "recall": "1/3 (33%)",
+    "false_positive_rate": "8/15 (53%)",
+    "unverified": "0/18",
+    "tp": 1,
+    "fp": 8,
+    "fn": 2
+  },
+  "final_unresolved": {
+    "precision": "3/11 (27%)",
+    "recall": "3/3 (100%)",
+    "false_positive_rate": "8/15 (53%)",
+    "unverified": "0/18",
+    "tp": 3,
+    "fp": 8,
+    "fn": 0
+  },
+  "by_split": {
+    "heldout": {
+      "n": 18,
+      "strict": {
+        "precision": "1/9 (11%)",
+        "recall": "1/3 (33%)",
+        "false_positive_rate": "8/15 (53%)",
+        "unverified": "0/18",
+        "tp": 1,
+        "fp": 8,
+        "fn": 2
+      },
+      "unresolved": {
+        "precision": "3/11 (27%)",
+        "recall": "3/3 (100%)",
+        "false_positive_rate": "8/15 (53%)",
+        "unverified": "0/18",
+        "tp": 3,
+        "fp": 8,
+        "fn": 0
+      }
+    }
+  },
+  "first_pass_only": {
+    "precision": "2/12 (17%)",
+    "recall": "2/3 (67%)",
+    "false_positive_rate": "10/15 (67%)",
+    "unverified": "0/18",
+    "tp": 2,
+    "fp": 10,
+    "fn": 1
+  },
+  "second_pass_rescued_valid_answers": 2,
+  "second_pass_hid_real_gaps": 0,
+  "citation_validity": "29/29 (100%)",
+  "json_validity": "84/84 (100%)",
+  "repeat_consistency": "18/18 (100%)",
+  "runtime_s_per_run": 1580.11
+}

@@ -127,6 +127,24 @@ class DescribeMode(unittest.TestCase):
         self.assertEqual(status(res, "C1"), ANSWERED)
 
 
+class Compare(unittest.TestCase):
+    def tearDown(self):
+        guard.uninstall()
+
+    def test_compare_writes_one_file_per_arm_with_scenario_detail(self):
+        import argparse
+        import tempfile
+        d = Path(tempfile.mkdtemp())
+        a = argparse.Namespace(out_dir=str(d), only=None, model="x", host="", fake=True)
+        self.assertEqual(dark_matter.cmd_compare(a), 0)
+        names = sorted(p.name for p in d.iterdir())
+        self.assertEqual(names, ["describe_dev.json", "describe_heldout.json",
+                                 "describe_heldout2.json", "relevance_heldout2.json"])
+        detail = json.loads((d / "relevance_heldout2.json").read_text())["detail"]
+        self.assertEqual(len(detail), 24)
+        self.assertIn("cited", detail[0])
+
+
 class Baseline(unittest.TestCase):
     def test_baseline_runs_without_a_model_and_reports_every_threshold(self):
         from bench.run_bench import run_baseline

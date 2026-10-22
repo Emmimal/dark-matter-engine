@@ -1,0 +1,304 @@
+{
+  "detail": [
+    {
+      "project": "cart",
+      "version": "v1",
+      "id": "K1",
+      "expected": "Not established",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "At checkout the service converts each reservation into a sale and decrements the stock count by the reserved quantity."
+    },
+    {
+      "project": "cart",
+      "version": "v2",
+      "id": "K1",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "At checkout the service converts each reservation into a sale and decrements the stock count by the reserved quantity."
+    },
+    {
+      "project": "cart",
+      "version": "v1",
+      "id": "K2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "If the price changes while an item sits in a cart, the cart shows the new price and notifies the customer at checkout."
+    },
+    {
+      "project": "cart",
+      "version": "v2",
+      "id": "K2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "If the price changes while an item sits in a cart, the cart shows the new price and notifies the customer at checkout."
+    },
+    {
+      "project": "cart",
+      "version": "v1",
+      "id": "K3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "If an item has no available units, the add-to-cart call returns 409 with the message \"out of stock\"."
+    },
+    {
+      "project": "cart",
+      "version": "v2",
+      "id": "K3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "If an item has no available units, the add-to-cart call returns 409 with the message \"out of stock\"."
+    },
+    {
+      "project": "webhooks",
+      "version": "v1",
+      "id": "W1",
+      "expected": "Not established",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "The service posts each event as JSON to the subscriber's URL and expects a 2xx response within 10 seconds."
+    },
+    {
+      "project": "webhooks",
+      "version": "v2",
+      "id": "W1",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "The service posts each event as JSON to the subscriber's URL and expects a 2xx response within 10 seconds."
+    },
+    {
+      "project": "webhooks",
+      "version": "v1",
+      "id": "W2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "Every request carries an HMAC signature header so the subscriber can verify that the event came from the service."
+    },
+    {
+      "project": "webhooks",
+      "version": "v2",
+      "id": "W2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "Every request carries an HMAC signature header so the subscriber can verify that the event came from the service."
+    },
+    {
+      "project": "webhooks",
+      "version": "v1",
+      "id": "W3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "Events for the same object are delivered in the order they were created."
+    },
+    {
+      "project": "webhooks",
+      "version": "v2",
+      "id": "W3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "Events for the same object are delivered in the order they were created."
+    },
+    {
+      "project": "cache",
+      "version": "v1",
+      "id": "P1",
+      "expected": "Not established",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "no passage matched",
+      "cited": ""
+    },
+    {
+      "project": "cache",
+      "version": "v2",
+      "id": "P1",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "When a profile is updated, the service deletes its cached copy before returning, so the next read loads the new data."
+    },
+    {
+      "project": "cache",
+      "version": "v1",
+      "id": "P2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "The cache holds at most 50,000 profiles. When full, the least recently used profile is evicted."
+    },
+    {
+      "project": "cache",
+      "version": "v2",
+      "id": "P2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "The cache holds at most 50,000 profiles. When full, the least recently used profile is evicted."
+    },
+    {
+      "project": "cache",
+      "version": "v1",
+      "id": "P3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "After a restart the cache starts empty and fills as profiles are requested."
+    },
+    {
+      "project": "cache",
+      "version": "v2",
+      "id": "P3",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "After a restart the cache starts empty and fills as profiles are requested."
+    },
+    {
+      "project": "export",
+      "version": "v1",
+      "id": "E1",
+      "expected": "Not established",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: The client calls POST /exports with a date range. The service returns an export id immedia",
+      "cited": ""
+    },
+    {
+      "project": "export",
+      "version": "v2",
+      "id": "E1",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "If building the file fails, the status becomes failed with an error message, and the client may request the export again at no charge."
+    },
+    {
+      "project": "export",
+      "version": "v1",
+      "id": "E2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "A date range longer than 366 days is rejected with a 422 response."
+    },
+    {
+      "project": "export",
+      "version": "v2",
+      "id": "E2",
+      "expected": "Answered",
+      "status": "Answered",
+      "first_pass_status": "Answered",
+      "reason": "",
+      "cited": "A date range longer than 366 days is rejected with a 422 response."
+    },
+    {
+      "project": "export",
+      "version": "v1",
+      "id": "E3",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: When the status is ready, the file is available at the returned URL as a CSV.",
+      "cited": ""
+    },
+    {
+      "project": "export",
+      "version": "v2",
+      "id": "E3",
+      "expected": "Answered",
+      "status": "Not established",
+      "first_pass_status": "Not established",
+      "reason": "cited text does not address the event: When the status is ready, the file is available at the returned URL as a CSV.",
+      "cited": ""
+    }
+  ],
+  "mode": "fixed",
+  "verify_mode": "relevance",
+  "n_scenarios": 24,
+  "runs": 1,
+  "final": {
+    "precision": "2/4 (50%)",
+    "recall": "2/4 (50%)",
+    "false_positive_rate": "2/20 (10%)",
+    "unverified": "0/24",
+    "tp": 2,
+    "fp": 2,
+    "fn": 2
+  },
+  "final_unresolved": {
+    "precision": "2/4 (50%)",
+    "recall": "2/4 (50%)",
+    "false_positive_rate": "2/20 (10%)",
+    "unverified": "0/24",
+    "tp": 2,
+    "fp": 2,
+    "fn": 2
+  },
+  "by_split": {
+    "heldout2": {
+      "n": 24,
+      "strict": {
+        "precision": "2/4 (50%)",
+        "recall": "2/4 (50%)",
+        "false_positive_rate": "2/20 (10%)",
+        "unverified": "0/24",
+        "tp": 2,
+        "fp": 2,
+        "fn": 2
+      },
+      "unresolved": {
+        "precision": "2/4 (50%)",
+        "recall": "2/4 (50%)",
+        "false_positive_rate": "2/20 (10%)",
+        "unverified": "0/24",
+        "tp": 2,
+        "fp": 2,
+        "fn": 2
+      }
+    }
+  },
+  "first_pass_only": {
+    "precision": "2/4 (50%)",
+    "recall": "2/4 (50%)",
+    "false_positive_rate": "2/20 (10%)",
+    "unverified": "0/24",
+    "tp": 2,
+    "fp": 2,
+    "fn": 2
+  },
+  "second_pass_rescued_valid_answers": 0,
+  "second_pass_hid_real_gaps": 0,
+  "citation_validity": "26/26 (100%)",
+  "json_validity": "52/52 (100%)",
+  "repeat_consistency": "24/24 (100%)",
+  "runtime_s_per_run": 1217.41
+}

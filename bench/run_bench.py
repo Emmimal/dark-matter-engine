@@ -70,8 +70,12 @@ def run_fixed(model, syn, runs, projects=None, verify_mode="relevance"):
         sub = [(it, f) for it, f in items if it.get("split", "dev") == sp]
         by_split[sp] = {"n": len(sub), "strict": score(sub, "status"),
                         "unresolved": score(sub, "status", True)}
+    detail = [{"project": it["project"], "version": it["version"], "id": it["scenario_id"],
+               "expected": it["expected"], "status": f["status"], "first_pass_status": f["first_pass_status"],
+               "reason": f["reason"], "cited": (f["citations"][0]["text"][:140] if f["citations"] else "")}
+              for it, f in items]
     calls = stats["model_calls"]
-    return {
+    return {"detail": detail,
         "mode": "fixed", "verify_mode": verify_mode, "n_scenarios": len(items), "runs": runs,
         "final": score(items, "status"), "final_unresolved": score(items, "status", True), "by_split": by_split, "first_pass_only": score(items, "first_pass_status"),
         "second_pass_rescued_valid_answers": rescued, "second_pass_hid_real_gaps": harmed,
