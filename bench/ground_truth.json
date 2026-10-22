@@ -265,6 +265,219 @@
       "expected": "Answered",
       "class": "answerable",
       "split": "heldout"
+    },
+    {
+      "project": "cart",
+      "version": "v1",
+      "scenario_id": "K1",
+      "expected": "Not established",
+      "class": "planted",
+      "split": "heldout2",
+      "match_terms": [
+        "shopper",
+        "leaves",
+        "stock"
+      ]
+    },
+    {
+      "project": "cart",
+      "version": "v2",
+      "scenario_id": "K1",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2",
+      "note": "paraphrase: lexical retrieval is expected to miss this; kept as a hard case, synonym table not tuned for it"
+    },
+    {
+      "project": "cart",
+      "version": "v1",
+      "scenario_id": "K2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "cart",
+      "version": "v2",
+      "scenario_id": "K2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "cart",
+      "version": "v1",
+      "scenario_id": "K3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "cart",
+      "version": "v2",
+      "scenario_id": "K3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "webhooks",
+      "version": "v1",
+      "scenario_id": "W1",
+      "expected": "Not established",
+      "class": "planted",
+      "split": "heldout2",
+      "match_terms": [
+        "subscriber",
+        "offline",
+        "events"
+      ]
+    },
+    {
+      "project": "webhooks",
+      "version": "v2",
+      "scenario_id": "W1",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "webhooks",
+      "version": "v1",
+      "scenario_id": "W2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "webhooks",
+      "version": "v2",
+      "scenario_id": "W2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "webhooks",
+      "version": "v1",
+      "scenario_id": "W3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "webhooks",
+      "version": "v2",
+      "scenario_id": "W3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "cache",
+      "version": "v1",
+      "scenario_id": "P1",
+      "expected": "Not established",
+      "class": "planted",
+      "split": "heldout2",
+      "match_terms": [
+        "user",
+        "edits",
+        "name"
+      ]
+    },
+    {
+      "project": "cache",
+      "version": "v2",
+      "scenario_id": "P1",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "cache",
+      "version": "v1",
+      "scenario_id": "P2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "cache",
+      "version": "v2",
+      "scenario_id": "P2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "cache",
+      "version": "v1",
+      "scenario_id": "P3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "cache",
+      "version": "v2",
+      "scenario_id": "P3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "export",
+      "version": "v1",
+      "scenario_id": "E1",
+      "expected": "Not established",
+      "class": "planted",
+      "split": "heldout2",
+      "match_terms": [
+        "background",
+        "crashes",
+        "export"
+      ]
+    },
+    {
+      "project": "export",
+      "version": "v2",
+      "scenario_id": "E1",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "export",
+      "version": "v1",
+      "scenario_id": "E2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "export",
+      "version": "v2",
+      "scenario_id": "E2",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "export",
+      "version": "v1",
+      "scenario_id": "E3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
+    },
+    {
+      "project": "export",
+      "version": "v2",
+      "scenario_id": "E3",
+      "expected": "Answered",
+      "class": "answerable",
+      "split": "heldout2"
     }
   ]
 }

@@ -5,7 +5,10 @@ import time
 from pathlib import Path
 
 from dme import guard
+from dme import index as ix
+from dme.baseline import THRESHOLDS, coverage, predict
 from dme.pipeline import analyze
+from dme.retrieve import Retriever
 from dme.retrieve import load_synonyms, tokens
 from dme.validate import NOT_ESTABLISHED, PARTIAL, UNVERIFIED
 
@@ -36,7 +39,7 @@ def score(items, key, unresolved=False):
             "tp": tp, "fp": fp, "fn": fn}
 
 
-def run_fixed(model, syn, runs, projects=None):
+def run_fixed(model, syn, runs, projects=None, verify_mode="relevance"):
     gt = [it for it in GT if not projects or it["project"] in projects]
     all_runs, t0 = [], time.time()
     for r in range(runs):
@@ -46,7 +49,8 @@ def run_fixed(model, syn, runs, projects=None):
             if projects and proj not in projects:
                 continue
             for ver in ("v1", "v2"):
-                res = analyze(model, ROOT / "corpus" / proj / ver, synonyms=syn, scenarios=scenarios)
+                res = analyze(model, ROOT / "corpus" / proj / ver, synonyms=syn, scenarios=scenarios,
+                              verify_mode=verify_mode)
                 for f in res["findings"]:
                     by_key[(proj, ver, f["id"])] = f
                 for k in stats:
@@ -68,7 +72,7 @@ def run_fixed(model, syn, runs, projects=None):
                         "unresolved": score(sub, "status", True)}
     calls = stats["model_calls"]
     return {
-        "mode": "fixed", "n_scenarios": len(items), "runs": runs,
+        "mode": "fixed", "verify_mode": verify_mode, "n_scenarios": len(items), "runs": runs,
         "final": score(items, "status"), "final_unresolved": score(items, "status", True), "by_split": by_split, "first_pass_only": score(items, "first_pass_status"),
         "second_pass_rescued_valid_answers": rescued, "second_pass_hid_real_gaps": harmed,
         "citation_validity": frac(stats["citations_valid"], stats["citations_total"]),
@@ -76,6 +80,24 @@ def run_fixed(model, syn, runs, projects=None):
         "repeat_consistency": frac(stable, len(gt)),
         "runtime_s_per_run": round(elapsed / runs, 2),
     }
+
+
+def run_baseline(projects=None):
+    """No model at all: coverage of the scenario's words by the top-3 retrieved passages."""
+    rows = {}
+    for it in GT:
+        if projects and it["project"] not in projects:
+            continue
+        sc = next(s for s in FIXED[it["project"]] if s["id"] == it["scenario_id"])
+        passages, _ = ix.build_index(ROOT / "corpus" / it["project"] / it["version"])
+        rows[(it["project"], it["version"], it["scenario_id"])] = (it, coverage(Retriever(passages), sc))
+    out = {}
+    for th in THRESHOLDS:
+        by = {}
+        for it, cov in rows.values():
+            by.setdefault(it.get("split", "dev"), []).append((it, {"status": predict(cov, th)}))
+        out[str(th)] = {sp: score(items, "status") for sp, items in sorted(by.items())}
+    return {"mode": "baseline (no model)", "n_scenarios": len(rows), "by_threshold": out}
 
 
 def run_generated(model, syn):
@@ -100,8 +122,9 @@ def main(a):
     guard.install()
     model, syn = make_model(a), load_synonyms(ROOT / "data/synonyms.json")
     out = {"model": model.info(), "plumbing_check_only": bool(a.fake)}
+    projects = a.projects.split(",") if getattr(a, "projects", None) else None
     if a.mode in ("fixed", "both"):
-        out["fixed"] = run_fixed(model, syn, a.runs)
+        out["fixed"] = run_fixed(model, syn, a.runs, projects, getattr(a, "verify_mode", "relevance"))
     if a.mode in ("generated", "both"):
         out["generated"] = run_generated(model, syn)
     (ROOT / "bench/results.json").write_text(json.dumps(out, indent=2))

@@ -36,6 +36,19 @@ def parse_relevance(obj):
     return obj["addresses_event"]
 
 
+def parse_situation(obj):
+    s = obj.get("situation") if isinstance(obj, dict) else None
+    if not (isinstance(s, str) and s.strip()):
+        raise SchemaError("expected {'situation': '...'}")
+    return s.strip()
+
+
+def parse_same(obj):
+    if not isinstance(obj, dict) or not isinstance(obj.get("same_situation"), bool):
+        raise SchemaError("expected {'same_situation': true|false}")
+    return obj["same_situation"]
+
+
 def parse_classification(obj):
     if not isinstance(obj, dict):
         raise SchemaError("not an object")

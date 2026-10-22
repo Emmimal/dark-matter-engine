@@ -31,7 +31,7 @@ def make_model(args):
     return OllamaModel(args.model, host=args.host)
 
 
-def run_scan(root, model, out, force=False, synonyms=None, scenarios=None):
+def run_scan(root, model, out, force=False, synonyms=None, scenarios=None, verify_mode="relevance"):
     """The one scan path used by `scan`, by the scheduler, and (via analyze) by the benchmark."""
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -42,13 +42,15 @@ def run_scan(root, model, out, force=False, synonyms=None, scenarios=None):
         if cache_path.exists() and not force:
             cache = json.loads(cache_path.read_text())
             if (cache.get("model") == info and cache.get("hashes") == hashes
-                    and cache.get("scenarios") == scenarios):
+                    and cache.get("scenarios") == scenarios
+                    and cache.get("verify_mode", "relevance") == verify_mode):
                 result = {**cache["result"], "cached": True}
         if result is None:
-            result = analyze(model, root, scenarios=scenarios,
+            result = analyze(model, root, scenarios=scenarios, verify_mode=verify_mode,
                              synonyms=synonyms or load_synonyms(HERE / "data/synonyms.json"))
             cache_path.write_text(json.dumps({"model": info, "hashes": hashes,
-                                              "scenarios": scenarios, "result": result}))
+                                              "scenarios": scenarios, "verify_mode": verify_mode,
+                                              "result": result}))
         out.write_text(report.render(result), encoding="utf-8")
         out.with_suffix(".json").write_text(json.dumps(result, indent=2), encoding="utf-8")
         return result
@@ -61,7 +63,7 @@ def cmd_scan(a):
     if not a.no_guard:
         guard.install()
     try:
-        r = run_scan(a.root, make_model(a), a.out, a.force)
+        r = run_scan(a.root, make_model(a), a.out, a.force, verify_mode=getattr(a, "verify_mode", "relevance"))
     except (ModelError, ValueError, OSError) as e:
         print(f"scan failed: {e}", file=sys.stderr)
         return 1
@@ -91,6 +93,13 @@ def windows_schedule_plan(root, at, out):
     return args, wrapper, text
 
 
+POWERSHELL_FIX = ("$t = Get-ScheduledTask -TaskName DarkMatterEngine; "
+                  "$t.Settings.DisallowStartIfOnBatteries = $false; "
+                  "$t.Settings.StopIfGoingOnBatteries = $false; "
+                  "$t.Settings.StartWhenAvailable = $true; "
+                  "Set-ScheduledTask -InputObject $t | Out-Null")
+
+
 def cmd_schedule(a):
     hh, mm = (int(x) for x in a.at.split(":"))
     if os.name == "nt":
@@ -104,6 +113,11 @@ def cmd_schedule(a):
         r = subprocess.run(args, capture_output=True, text=True)
         print((r.stdout + r.stderr).strip())
         if r.returncode == 0:
+            ps = subprocess.run(["powershell", "-NoProfile", "-Command", POWERSHELL_FIX],
+                                capture_output=True, text=True)
+            print("Battery settings: " + ("allowed to start on battery, runs after a missed start"
+                                          if ps.returncode == 0 else
+                                          "NOT changed (" + (ps.stderr or ps.stdout).strip()[:200] + ")"))
             print("Verify:  schtasks /Query /TN DarkMatterEngine /V /FO LIST\n"
                   "Run now: schtasks /Run /TN DarkMatterEngine   (then check last_run.log)")
         return r.returncode
@@ -142,9 +156,11 @@ def cmd_demo(a):
                 print(f"scanning {proj}/{ver} ...", flush=True)
                 results[(proj, ver)] = run_scan(HERE / "corpus" / proj / ver, model,
                                                 out / f"{proj}_{ver}" / "latest.html",
-                                                synonyms=syn, scenarios=scenarios)
+                                                synonyms=syn, scenarios=scenarios,
+                                                verify_mode=getattr(a, "verify_mode", "relevance"))
         print(f"running benchmark ({a.runs} run(s)) ...", flush=True)
-        bench = run_fixed(model, syn, a.runs, projects=list(fixed))
+        bench = run_fixed(model, syn, a.runs, projects=list(fixed),
+                          verify_mode=getattr(a, "verify_mode", "relevance"))
     except (ModelError, ValueError, OSError) as e:
         print(f"demo failed: {e}\nIs Ollama running with the model pulled ({a.model})?", file=sys.stderr)
         return 1
@@ -166,6 +182,13 @@ def cmd_demo(a):
     print(f"Open {out / 'index.html'}")
     return 0
 
+def cmd_baseline(a):
+    from bench.run_bench import run_baseline
+    r = run_baseline()
+    print(json.dumps(r, indent=2))
+    return 0
+
+
 def cmd_bench(a):
     from bench.run_bench import main
     return main(a)
@@ -179,6 +202,8 @@ def build_parser():
         sp.add_argument("--model", default=DEFAULT_MODEL)
         sp.add_argument("--host", default=DEFAULT_HOST)
         sp.add_argument("--fake", action="store_true", help="stub model, plumbing check only")
+        sp.add_argument("--verify-mode", choices=["relevance", "describe", "none"], default="relevance",
+                        help="how an Answered claim is double-checked (default: relevance)")
 
     s = sub.add_parser("scan", help="scan a folder and write the HTML report")
     s.add_argument("root")
@@ -203,8 +228,12 @@ def build_parser():
     common(d)
     d.set_defaults(fn=cmd_demo)
 
+    n = sub.add_parser("baseline", help="no-model baseline over the same scenarios")
+    n.set_defaults(fn=cmd_baseline)
+
     b = sub.add_parser("bench", help="run the benchmark on corpus/")
     b.add_argument("--runs", type=int, default=3)
+    b.add_argument("--projects", help="comma list, e.g. cart,webhooks,cache,export")
     b.add_argument("--mode", choices=["fixed", "generated", "both"], default="fixed")
     common(b)
     b.set_defaults(fn=cmd_bench)

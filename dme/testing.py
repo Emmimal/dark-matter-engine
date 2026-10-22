@@ -13,6 +13,18 @@ DEFAULT_RULES = {
     "U2": ["rejected at the start of the upload with a 413"], "U3": ["returns its checksum"],
     "N1": ["kept for up to 6 hours"], "N2": ["dropped and counted in the metrics dashboard"],
     "N3": ["held and delivered at 07:00"],
+    "K1": ["is released and the unit becomes available again"],
+    "K2": ["shows the new price and notifies the customer at checkout"],
+    "K3": ["returns 409 with the message"],
+    "W1": ["moved to a dead-letter list kept for 14 days"],
+    "W2": ["carries an HMAC signature header"],
+    "W3": ["delivered in the order they were created"],
+    "P1": ["deletes its cached copy before returning"],
+    "P2": ["the least recently used profile is evicted"],
+    "P3": ["the cache starts empty"],
+    "E1": ["the status becomes failed with an error message"],
+    "E2": ["rejected with a 422 response"],
+    "E3": ["returns pending, ready or failed"],
 }
 
 
@@ -28,6 +40,10 @@ class FakeModel:
         return {"tag": self.tag, "digest": None}
 
     def generate_json(self, system, user):
+        if "DESCRIBE_QUOTE" in system:
+            return {"situation": "stub description"}
+        if "SITUATION_COMPARE" in system:
+            return {"same_situation": self.relevance}
         if "RELEVANCE_CHECK" in system:
             return {"addresses_event": self.relevance}
         if "SCENARIO_GENERATION" in system:

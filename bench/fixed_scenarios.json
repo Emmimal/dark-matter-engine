@@ -83,5 +83,73 @@
       "event": "A notification is created at 23:30 in the user's local time",
       "required_outcome": "delivery timing is defined"
     }
+  ],
+  "cart": [
+    {
+      "id": "K1",
+      "event": "A shopper leaves without paying and never returns",
+      "required_outcome": "the held stock is not stuck forever"
+    },
+    {
+      "id": "K2",
+      "event": "The price of an item changes while it is in a cart",
+      "required_outcome": "the customer sees and is told about the new price"
+    },
+    {
+      "id": "K3",
+      "event": "A customer adds an item that has no units left",
+      "required_outcome": "the customer gets a defined refusal"
+    }
+  ],
+  "webhooks": [
+    {
+      "id": "W1",
+      "event": "The subscriber's server stays offline for two days",
+      "required_outcome": "events are not silently lost"
+    },
+    {
+      "id": "W2",
+      "event": "A subscriber wants to confirm an event is genuine",
+      "required_outcome": "the subscriber has a way to verify the sender"
+    },
+    {
+      "id": "W3",
+      "event": "Two events for the same order are created one after the other",
+      "required_outcome": "the subscriber receives them in a defined order"
+    }
+  ],
+  "cache": [
+    {
+      "id": "P1",
+      "event": "A user edits their display name and reloads the page right away",
+      "required_outcome": "the page shows the new name"
+    },
+    {
+      "id": "P2",
+      "event": "The cache is full and a new profile must be stored",
+      "required_outcome": "a defined rule makes room"
+    },
+    {
+      "id": "P3",
+      "event": "The service restarts",
+      "required_outcome": "the state of the cache is defined"
+    }
+  ],
+  "export": [
+    {
+      "id": "E1",
+      "event": "The background job crashes halfway through building a large export",
+      "required_outcome": "the client is told and can try again"
+    },
+    {
+      "id": "E2",
+      "event": "A client asks for a two-year date range",
+      "required_outcome": "the request is refused with a defined response"
+    },
+    {
+      "id": "E3",
+      "event": "A client asks for the file before it is built",
+      "required_outcome": "the client learns the file is not ready"
+    }
   ]
 }

@@ -6,7 +6,8 @@ from . import index as ix
 from .model import ModelError
 from .retrieve import Retriever, tokens
 from .validate import (ANSWERED, NOT_ESTABLISHED, UNVERIFIED, SchemaError, dedupe_scenarios,
-                       parse_classification, parse_relevance, parse_scenarios, verify)
+                       parse_classification, parse_relevance, parse_same, parse_scenarios,
+                       parse_situation, verify)
 
 SCENARIO_SYSTEM = """SCENARIO_GENERATION. You are a careful software reviewer.
 Read the documentation section and propose failure scenarios: events that could go wrong
@@ -33,6 +34,17 @@ as access being revoked. But the quote must state an OUTCOME (what happens to th
 data or the user). A quote that only describes a related mechanism, without saying what
 happens in this situation, does not count.
 Return ONLY JSON: {"addresses_event": true} or {"addresses_event": false}"""
+
+DESCRIBE_SYSTEM = """DESCRIBE_QUOTE. Read the QUOTE from documentation. In one short sentence, say what
+situation the quote is about and what it says happens. Use only what the quote says.
+Return ONLY JSON: {"situation": "..."}"""
+
+COMPARE_SYSTEM = """SITUATION_COMPARE. SITUATION_A comes from documentation. SITUATION_B is the scenario
+being checked. Are they the same kind of situation, so that what is said about A also tells us
+what happens in B? Different wording is fine (a process crashing and a process that stops
+responding are the same). A related but different situation is NOT the same (a request returning
+an error is not the same as the server losing power).
+Return ONLY JSON: {"same_situation": true} or {"same_situation": false}"""
 
 
 @dataclass
@@ -89,7 +101,18 @@ def good_question(q, sc):
     return len(q.strip()) >= 15 and bool(ref & set(tokens(q)))
 
 
-def classify(model, sc, hits, stats, verify_relevance=True):
+def _grounded(model, sc, cit, stats, mode):
+    """Does this quote establish what happens in the scenario? Two ways to ask a small model."""
+    if mode == "describe":  # describe the quote first, without seeing the scenario, then compare
+        sit = _call(model, DESCRIBE_SYSTEM, f"QUOTE: {cit['text']}", stats, parse_situation)
+        return _call(model, COMPARE_SYSTEM, f"SITUATION_A: {sit}\nSITUATION_B: {sc['event']}",
+                     stats, parse_same)
+    return _call(model, RELEVANCE_SYSTEM,
+                 f"SITUATION: {sc['event']}\nREQUIRED OUTCOME: {sc['required_outcome']}\nQUOTE: {cit['text']}",
+                 stats, parse_relevance)
+
+
+def classify(model, sc, hits, stats, verify_mode="relevance"):
     """Returns (status, citations, open_question, reason)."""
     if not hits:
         return NOT_ESTABLISHED, [], "", "no passage matched"
@@ -103,13 +126,11 @@ def classify(model, sc, hits, stats, verify_relevance=True):
     if res["status"] != NOT_ESTABLISHED:
         stats.citations_total += res["claimed"]
         stats.citations_valid += res["valid"]
-    if res["status"] == ANSWERED and verify_relevance:
+    if res["status"] == ANSWERED and verify_mode != "none":
         try:
-            ok = all(_call(model, RELEVANCE_SYSTEM,
-                           f"SITUATION: {sc['event']}\nREQUIRED OUTCOME: {sc['required_outcome']}\nQUOTE: {c['text']}", stats, parse_relevance)
-                     for c in res["citations"])
+            ok = all(_grounded(model, sc, c, stats, verify_mode) for c in res["citations"])
         except (ModelError, SchemaError) as e:
-            return UNVERIFIED, res["citations"], parsed["open_question"], f"relevance check invalid: {e}"
+            return UNVERIFIED, res["citations"], parsed["open_question"], f"grounding check invalid: {e}"
         if not ok:
             return (NOT_ESTABLISHED, [], parsed["open_question"],
                     f"cited text does not address the event: {res['citations'][0]['text'][:90]}")
@@ -117,7 +138,7 @@ def classify(model, sc, hits, stats, verify_relevance=True):
 
 
 def analyze(model, root, synonyms=None, scenarios=None, top_k=3, top_k2=5,
-            per_section=3, max_scenarios=12, verify_relevance=True):
+            per_section=3, max_scenarios=12, verify_mode="relevance"):
     t0, stats = time.time(), Stats()
     passages, hashes = ix.build_index(root)
     if not passages:
@@ -129,11 +150,11 @@ def analyze(model, root, synonyms=None, scenarios=None, top_k=3, top_k2=5,
     findings = []
     for sc in scenarios:
         query = sc["event"] + " " + sc["required_outcome"]
-        status, cits, question, reason = classify(model, sc, retr.search(query, top_k), stats, verify_relevance)
+        status, cits, question, reason = classify(model, sc, retr.search(query, top_k), stats, verify_mode)
         first, used = status, 1
         if status == NOT_ESTABLISHED:  # second pass: synonym expansion, then re-classify
             hits2 = retr.search(query, top_k2, expand=True)
-            status, cits, q2, reason = classify(model, sc, hits2, stats, verify_relevance)
+            status, cits, q2, reason = classify(model, sc, hits2, stats, verify_mode)
             question, used = q2 or question, 2
         if not good_question(question, sc):
             question = ""
@@ -143,6 +164,6 @@ def analyze(model, root, synonyms=None, scenarios=None, top_k=3, top_k2=5,
             "pass_used": used, "citations": cits, "reason": reason,
             "open_question": question or f"What must happen when: {sc['event']}?",
         })
-    return {"root": str(root), "mode": mode, "model": model.info(), "files": hashes,
+    return {"root": str(root), "mode": mode, "verify_mode": verify_mode, "model": model.info(), "files": hashes,
             "findings": findings, "stats": asdict(stats),
             "elapsed_s": round(time.time() - t0, 2)}
